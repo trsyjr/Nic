@@ -1,0 +1,10 @@
+.glow {
+  /* Light mode glow = dark gray (matches dark bg) */
+  box-shadow: 0 0 20px 5px rgba(55, 65, 81, 0.6); /* gray-700 */
+  transition: box-shadow 0.3s;
+}
+
+/* Dark Mode Glow = yellow (matches button) */
+html.dark .glow {
+  box-shadow: 0 0 20px 5px rgba(250, 204, 21, 0.7); /* yellow-400 */
+}
