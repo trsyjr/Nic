@@ -6,6 +6,7 @@
   <title>HOME - Get to Know Me!</title>
   <link rel="stylesheet" href="home.css" />
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script>
@@ -16,36 +17,38 @@
 
   <!-- Sidebar / Burger Menu -->
   <aside id="sidebar" class="fixed top-0 left-0 z-20 w-72 sm:w-80 md:w-[450px] h-full bg-white dark:bg-gray-900 shadow-2xl flex flex-col items-center text-center p-6 md:p-8 overflow-y-auto transform -translate-x-full md:translate-x-0 transition-transform duration-300">
-    <!-- Close for mobile -->
-    <button id="sidebarClose" class="absolute top-4 right-4 md:hidden p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-red-500 hover:text-white transition-all">
-      <i class='bx bx-x text-2xl'></i>
-    </button>
+  <!-- Close for mobile -->
+  <button id="sidebarClose" class="absolute top-4 right-4 md:hidden p-2 rounded-full bg-gray-200 dark:bg-gray-800 hover:bg-red-500 hover:text-white transition-all">
+    <i class='bx bx-x text-2xl'></i>
+  </button>
 
-    <img src="Assets/Nic.png" alt="Profile" class="w-48 h-48 md:w-64 md:h-64 rounded-full border-4 border-gray-300 shadow-lg mb-5 hover:scale-105 transition-transform duration-300"/>
-    <h3 class="text-2xl font-bold mb-1">Christian Nicole D. Dorado</h3>
-    <p class="italic mb-4 text-gray-600 dark:text-gray-400">Training Specialist II</p>
+  <!-- Profile Image -->
+  <div class="w-48 h-48 md:w-64 md:h-64 mb-4 rounded-full overflow-hidden border-4 border-gray-300 shadow-lg">
+    <img src="Assets/Nic.png" alt="Profile" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300"/>
+  </div>
 
-    <div class="text-left space-y-2 text-sm w-full px-2">
-      <p><span class="font-semibold">Hobbies:</span> Reading Manga/Playing Badminton</p>
-      <p><span class="font-semibold">Dream:</span> Yumaman, to teach social works</p>
-      <p><span class="font-semibold">Favorite Anime:</span> Boku Dake ga Inai Machi (Erased)</p>
-      <p><span class="font-semibold">Personality:</span> Outgoing with friends/shy in public</p>
+  <h3 class="text-2xl font-bold mb-1">Christian Nicole D. Dorado</h3>
+  <p class="italic mb-2 text-gray-600 dark:text-gray-400">Training Specialist II</p>
 
-      <div class="mt-4">
-        <p class="font-semibold mb-1">🎵 Music</p>
-        <audio controls class="w-full rounded-lg shadow-md dark:border-gray-600">
-          <source src="Assets/music.mp3" type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
-      </div>
-    </div>
+  <!-- Quote -->
+  <blockquote class="italic text-sm text-gray-500 dark:text-gray-400 mb-4 px-4">"And medicine, law, business, engineering, 
+    these are noble pursuits and necessary to sustain life. But poetry, beauty, romance, love, these are what we stay alive for. - dead poets society</blockquote>
 
-    <div class="flex-1"></div>
-    <a href="index.html" class="mt-4 mb-2 px-6 py-2 bg-pink-400 text-white font-bold rounded-full shadow hover:bg-pink-500 hover:scale-105 transition transform">Logout</a>
+  <!-- Hobbies/Dream/Favorite/Personality -->
+  <div class="text-center space-y-2 text-sm w-full px-4">
+    <p><span class="font-semibold">Hobbies:</span> Reading Manga / Playing Badminton</p>
+    <p><span class="font-semibold">Dream:</span> Yumaman, to teach social works</p>
+    <p><span class="font-semibold">Favorite Anime:</span> Boku Dake ga Inai Machi (Erased)</p>
+    <p><span class="font-semibold">Personality:</span> Outgoing with friends / shy in public</p>
+  </div>
 
-    <hr class="border-gray-300 dark:border-gray-600 w-full my-4"/>
-    <p class="text-xs text-center text-gray-500 dark:text-gray-400">© 2025 November | Feature of the Month</p>
+  <div class="flex-1"></div>
+  <a href="index.html" class="mt-4 mb-2 px-6 py-2 bg-pink-400 text-white font-bold rounded-full shadow hover:bg-pink-500 hover:scale-105 transition transform">Logout</a>
+
+  <hr class="border-gray-300 dark:border-gray-600 w-full my-4"/>
+  <p class="text-xs text-center text-gray-500 dark:text-gray-400">© 2025 November | Feature of the Month</p>
   </aside>
+
 
   <!-- Mobile burger button -->
   <button id="burger" class="fixed top-4 left-4 z-30 md:hidden w-12 h-12 bg-yellow-400 dark:bg-gray-700 flex items-center justify-center rounded-full shadow-lg hover:scale-110 transition-transform">
@@ -93,26 +96,35 @@
     <section id="cardsGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></section>
 
     <!-- Modal -->
-    <div id="infoModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4 overflow-y-auto transition-colors duration-500">
-      <div class="bg-white dark:bg-gray-800 rounded-3xl max-w-3xl w-full overflow-hidden relative shadow-2xl transform transition-transform duration-300">
+    <div id="infoModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+      <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-5xl max-h-[90vh] relative shadow-2xl">
+
+        <!-- Fixed Close Button -->
         <button id="closeModal" class="absolute top-4 right-4 z-50 flex items-center justify-center
               w-10 h-10 rounded-full bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 shadow-md border border-gray-200 dark:border-gray-600
-              transition-all duration-300 hover:bg-red-500 hover:text-white hover:scale-110 hover:rotate-90" title="Close">
+              hover:bg-red-500 hover:text-white hover:scale-110 hover:rotate-90 transition-all duration-300" title="Close">
           <i class='bx bx-x text-2xl'></i>
         </button>
 
-        <img id="modalImage" src="" alt="" class="w-full h-auto object-cover border-b border-gray-300 dark:border-gray-600">
-        <div class="p-6">
+        <!-- Scrollable content -->
+        <div class="overflow-y-auto max-h-[90vh] p-4">
+          <!-- Swiper -->
+          <div class="modal-swiper swiper w-full h-auto mb-4">
+            <div class="swiper-wrapper"></div>
+            <div class="swiper-pagination"></div>
+          </div>
+
+          <!-- Text content -->
           <h3 id="modalTitle" class="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100"></h3>
           <p id="modalCategory" class="text-sm italic mb-3 text-gray-600 dark:text-gray-400"></p>
           <p id="modalDesc" class="text-sm text-gray-700 dark:text-gray-300"></p>
         </div>
       </div>
     </div>
-
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/@motionone/dom/dist/motion.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="home.js"></script>
 
 </body>

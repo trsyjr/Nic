@@ -1,193 +1,174 @@
-// ------------------ Tailwind Dark Mode ------------------
-tailwind.config = { darkMode: 'class' };
-
-const html = document.documentElement;
+// ------------------ Theme Toggle (Boxicons) ------------------
 const themeToggle = document.getElementById("themeToggle");
+const html = document.documentElement;
+
+if (localStorage.getItem("theme") === "dark") html.classList.add("dark");
 
 function updateToggleIcon() {
-  if (html.classList.contains("dark")) {
-    themeToggle.innerHTML = '<i class="bx bx-sun text-yellow-400"></i>';
-  } else {
-    themeToggle.innerHTML = '<i class="bx bx-moon text-gray-700"></i>';
-  }
+  themeToggle.innerHTML = html.classList.contains("dark")
+    ? '<i class="bx bx-sun text-yellow-400 text-3xl"></i>'
+    : '<i class="bx bx-moon text-gray-700 text-3xl"></i>';
 }
 updateToggleIcon();
 
 themeToggle.addEventListener("click", () => {
   html.classList.toggle("dark");
+  localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
   updateToggleIcon();
 });
 
-// ------------------ Cards Data ------------------
-const cardsData = [
-  { title: "Personality", category: "Personality", image: "Assets/1.jpg" },
-  { title: "Favorite Anime", category: "Favorites", image: "Assets/2.jpg" },
-  { title: "Dream World", category: "Dreams", image: "Assets/3.jpg" },
-  { title: "Hobbies", category: "Hobbies", image: "Assets/4.jpg" },
-  { title: "Quote", category: "Favorites", image: "Assets/5.jpg" },
-  { title: "Adventure", category: "Hobbies", image: "Assets/6.jpg" },
-  { title: "Friendship", category: "Personality", image: "Assets/7.jpg" },
-  { title: "Learning", category: "Hobbies", image: "Assets/8.jpg" },
-  { title: "Creativity", category: "Hobbies", image: "Assets/9.jpg" },
-  { title: "Motivation", category: "Favorites", image: "Assets/10.jpg" },
-  { title: "Relaxation", category: "Dreams", image: "Assets/11.jpg" },
-  { title: "Future Goals", category: "Dreams", image: "Assets/12.jpg" }
-];
-
-// ------------------ Elements ------------------
-const grid = document.getElementById("cardsGrid");
-const modal = document.getElementById("infoModal");
-const closeModalBtn = document.getElementById("closeModal");
-const modalImage = document.getElementById("modalImage");
-const modalTitle = document.getElementById("modalTitle");
-const modalCategory = document.getElementById("modalCategory");
-const modalDesc = document.getElementById("modalDesc");
-
+// ------------------ Sidebar Toggle ------------------
 const burger = document.getElementById("burger");
 const sidebar = document.getElementById("sidebar");
 const sidebarClose = document.getElementById("sidebarClose");
 
+burger?.addEventListener("click", () => sidebar.classList.toggle("-translate-x-full"));
+sidebarClose?.addEventListener("click", () => sidebar.classList.add("-translate-x-full"));
+
+// ------------------ Cards Data ------------------
+const cardsData = [
+  {
+    title: "Origin Story",
+    category: "Personal",
+    images: [
+      "Assets/O1.jpeg","Assets/O2.jpeg","Assets/O3.png","Assets/O4.png","Assets/O5.png",
+      "Assets/O6.jpeg","Assets/O7.jpeg","Assets/O8.jpeg","Assets/O9.jpeg","Assets/O10.jpeg"
+    ],
+    desc: "Born into a humble family, I am the third child among six siblings..."
+  },
+  {
+    title: "Personality",
+    category: "Personality",
+    images: ["Assets/P1.jpeg","Assets/P2.jpeg","Assets/P3.jpeg","Assets/P4.jpeg"],
+    desc: "People often see me as outgoing and fun, but deep inside..."
+  },
+  {
+    title: "Favorite Soundtrack",
+    category: "Favorites",
+    images: ["Assets/M1.gif"],
+    soundtrack: "Assets/Show Yourself.mp3",
+    desc: "I listen to a wide variety of music — from Philippine hip-hop and K-pop songs..."
+  },
+  {
+    title: "Dreams",
+    category: "Dreams",
+    images: ["Assets/D1.jpeg","Assets/D2.jpeg","Assets/D3.jpeg","Assets/D4.jpeg"],
+    desc: "Ever since I can remember, I’ve been someone who didn’t really dream big..."
+  },
+  {
+    title: "Hobbies",
+    category: "Hobbies",
+    images: ["Assets/H1.png"],
+    desc: "I spend most of my time reading mangas and watching series with my loving girlfriend..."
+  }
+];
+
 // ------------------ Display Cards ------------------
+const grid = document.getElementById("cardsGrid");
+
 function displayCards(data) {
+  if (!grid) return;
   grid.innerHTML = "";
 
-  data.forEach((item, i) => {
+  data.forEach(item => {
     const card = document.createElement("div");
-    card.classList.add(
-      "card",
-      "rounded-2xl","shadow-lg","overflow-hidden","cursor-pointer",
-      "hover:scale-105","transform","transition",
-      "bg-white","dark:bg-gray-700",
-      "opacity-0","translate-y-6","transition-all","duration-700","ease-out"
-    );
+    card.className = "rounded-2xl shadow-lg overflow-hidden bg-white dark:bg-gray-700 transition-transform hover:scale-105 cursor-pointer";
 
     card.innerHTML = `
-      <img src="${item.image}" alt="${item.title}" class="w-full h-56 object-cover">
+      <img src="${item.images[0]}" alt="${item.title}" class="w-full h-56 object-cover">
       <div class="p-4">
         <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100">${item.title}</h3>
-        <p class="text-xs text-gray-500 dark:text-gray-400">${item.category}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400 mb-2">${item.category}</p>
+        <p class="text-sm text-gray-600 dark:text-gray-300">${item.desc}</p>
       </div>
     `;
 
     card.addEventListener("click", () => openModal(item));
     grid.appendChild(card);
-
-    // Animate cards with stagger
-    setTimeout(() => {
-      card.classList.remove("opacity-0","translate-y-6");
-      card.classList.add("opacity-100","translate-y-0");
-    }, i * 100);
   });
 }
 
-// ------------------ Modal Functions ------------------
+// ------------------ Modal ------------------
+const modal = document.getElementById("infoModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalCategory = document.getElementById("modalCategory");
+const modalDesc = document.getElementById("modalDesc");
+const swiperWrapper = document.querySelector(".modal-swiper .swiper-wrapper");
+const closeModalBtn = document.getElementById("closeModal");
+
+let modalSwiper;
+
 function openModal(item) {
-  modalImage.src = item.image;
   modalTitle.textContent = item.title;
   modalCategory.textContent = item.category;
-  modalDesc.textContent = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti.";
+  modalDesc.textContent = item.desc;
+
+  swiperWrapper.innerHTML = "";
+
+  if (item.soundtrack) {
+    swiperWrapper.innerHTML = `
+      <div class="swiper-slide flex flex-col items-center justify-center gap-4">
+        <img src="${item.images[0]}" class="w-60 sm:w-80 h-auto object-contain animate-spin-slow" alt="Soundtrack Disc">
+        <audio controls class="w-full mt-4">
+          <source src="${item.soundtrack}" type="audio/mpeg">
+          Your browser does not support the audio element.
+        </audio>
+      </div>
+    `;
+  } else {
+    swiperWrapper.innerHTML = item.images.map(img => `
+      <div class="swiper-slide flex justify-center">
+        <img src="${img}" class="w-full max-h-[70vh] sm:max-h-[80vh] object-contain rounded-lg" />
+      </div>
+    `).join("");
+  }
 
   modal.classList.remove("hidden");
-  modal.classList.add("flex");
+  modal.classList.add("flex", "animate-fadeIn");
 
-  const modalContent = modal.querySelector("div");
-  modalContent.classList.add("scale-75","opacity-0","transition-all","duration-300","ease-out");
-  setTimeout(() => {
-    modalContent.classList.remove("scale-75","opacity-0");
-    modalContent.classList.add("scale-100","opacity-100");
-  }, 50);
+  if (modalSwiper) modalSwiper.destroy(true, true);
+
+  modalSwiper = new Swiper(".modal-swiper", {
+    loop: true,
+    speed: 700,
+    autoplay: { delay: 3500, disableOnInteraction: false },
+    pagination: { el: ".swiper-pagination", clickable: true },
+    navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" }
+  });
 }
 
 function closeModal() {
-  const modalContent = modal.querySelector("div");
-  modalContent.classList.remove("scale-100","opacity-100");
-  modalContent.classList.add("scale-75","opacity-0");
-
+  modal.classList.remove("animate-fadeIn");
+  modal.classList.add("animate-fadeOut");
   setTimeout(() => {
     modal.classList.add("hidden");
-    modal.classList.remove("flex");
+    modal.classList.remove("flex", "animate-fadeOut");
   }, 300);
 }
 
-closeModalBtn.addEventListener("click", closeModal);
+closeModalBtn?.addEventListener("click", closeModal);
+modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
+window.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.classList.contains("hidden")) closeModal(); });
 
-// ------------------ Sidebar Animations ------------------
-burger.addEventListener("click", () => {
-  sidebar.classList.toggle("-translate-x-full");
-  sidebar.classList.add("transition-transform","duration-300","ease-out");
-});
-sidebarClose.addEventListener("click", () => {
-  sidebar.classList.add("-translate-x-full");
-  sidebar.classList.add("transition-transform","duration-300","ease-in");
-});
-
-// ------------------ Header Animation ------------------
-const headerTitle = document.querySelector("header h1");
-if (headerTitle) {
-  headerTitle.classList.add("opacity-0","translate-y-6","transition-all","duration-700","ease-out");
-  setTimeout(() => {
-    headerTitle.classList.remove("opacity-0","translate-y-6");
-    headerTitle.classList.add("opacity-100","translate-y-0");
-  }, 100);
-}
-
-// ------------------ Search/Filter Animation ------------------
-const searchInput = document.getElementById("searchInput");
+// ------------------ Filter & Search ------------------
 const genreFilter = document.getElementById("genreFilter");
+const searchInput = document.getElementById("searchInput");
 
-[searchInput, genreFilter].forEach((el, i) => {
-  el.classList.add("opacity-0","translate-y-4","transition-all","duration-500","ease-out");
-  setTimeout(() => {
-    el.classList.remove("opacity-0","translate-y-4");
-    el.classList.add("opacity-100","translate-y-0");
-  }, 400 + i*100);
-});
+function filterCards() {
+  const searchValue = searchInput.value.toLowerCase();
+  const genreValue = genreFilter.value;
 
-// ------------------ Animate texts ------------------
+  const filtered = cardsData.filter(card => {
+    const matchesSearch = card.title.toLowerCase().includes(searchValue) || card.desc.toLowerCase().includes(searchValue);
+    const matchesGenre = genreValue === "All" || card.category === genreValue;
+    return matchesSearch && matchesGenre;
+  });
 
-// Animate header text
-const headerText = document.querySelector("header h1");
-if (headerText) {
-  headerText.classList.add("opacity-0","translate-y-4","transition-all","duration-700","ease-out");
-  setTimeout(() => {
-    headerText.classList.remove("opacity-0","translate-y-4");
-    headerText.classList.add("opacity-100","translate-y-0");
-  }, 100);
+  displayCards(filtered);
 }
 
-// Animate sidebar texts (name, role, hobbies, etc.)
-const sidebarTexts = document.querySelectorAll("#sidebar h3, #sidebar p, #sidebar .text-left p");
-sidebarTexts.forEach((el, i) => {
-  el.classList.add("opacity-0","translate-y-4","transition-all","duration-500","ease-out");
-  setTimeout(() => {
-    el.classList.remove("opacity-0","translate-y-4");
-    el.classList.add("opacity-100","translate-y-0");
-  }, 300 + i*100); // stagger
-});
-
-// Animate card texts separately after card image appears
-const cards = document.querySelectorAll("#cardsGrid .card");
-cards.forEach((card, i) => {
-  const texts = card.querySelectorAll("h3, p");
-  texts.forEach((txt, j) => {
-    txt.classList.add("opacity-0","translate-y-2","transition-all","duration-500","ease-out");
-    setTimeout(() => {
-      txt.classList.remove("opacity-0","translate-y-2");
-      txt.classList.add("opacity-100","translate-y-0");
-    }, 200 + j*100 + i*100); // stagger by card and text
-  });
-});
-
-// Animate modal texts
-const modalTexts = modal.querySelectorAll("h3, p");
-modalTexts.forEach((txt, i) => {
-  txt.classList.add("opacity-0","translate-y-2","transition-all","duration-400","ease-out");
-  setTimeout(() => {
-    txt.classList.remove("opacity-0","translate-y-2");
-    txt.classList.add("opacity-100","translate-y-0");
-  }, 150 + i*100);
-});
-
+genreFilter.addEventListener("change", filterCards);
+searchInput.addEventListener("input", filterCards);
 
 // ------------------ Initialize ------------------
-displayCards(cardsData);
+document.addEventListener("DOMContentLoaded", () => displayCards(cardsData));

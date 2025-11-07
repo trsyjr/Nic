@@ -8,3 +8,60 @@
 html.dark .glow {
   box-shadow: 0 0 20px 5px rgba(250, 204, 21, 0.7); /* yellow-400 */
 }
+
+.swiper {
+  border-radius: 0.75rem; /* rounded-xl */
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #ec4899 !important; /* pink highlight */
+}
+
+.card {
+  will-change: transform, opacity;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(0.98); }
+}
+
+.animate-fadeIn { animation: fadeIn 0.3s ease-out forwards; }
+.animate-fadeOut { animation: fadeOut 0.3s ease-in forwards; }
+
+/* Modal Scrollbar Styling */
+#infoModal .p-4 {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #fcd34d #fef3c7; /* thumb color | track color */
+}
+
+/* Chrome, Edge, Safari */
+#infoModal .p-4::-webkit-scrollbar {
+  width: 8px;
+}
+#infoModal .p-4::-webkit-scrollbar-track {
+  background: #fef3c7; /* light yellowish track for light mode */
+  border-radius: 8px;
+}
+#infoModal .p-4::-webkit-scrollbar-thumb {
+  background-color: #fcd34d; /* bright yellow for thumb */
+  border-radius: 8px;
+  border: 2px solid #fef3c7; /* optional for padding effect */
+}
+
+/* Dark Mode */
+html.dark #infoModal .p-4 {
+  scrollbar-color: #a78bfa #1f2937; /* thumb | track */
+}
+html.dark #infoModal .p-4::-webkit-scrollbar-track {
+  background: #1f2937; /* dark gray track */
+}
+html.dark #infoModal .p-4::-webkit-scrollbar-thumb {
+  background-color: #a78bfa; /* purple thumb */
+  border: 2px solid #1f2937;
+}
