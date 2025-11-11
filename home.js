@@ -196,3 +196,45 @@ genreFilter.addEventListener("change", filterCards);
 searchInput.addEventListener("input", filterCards);
 
 displayCards(cardsData);
+
+// ------------------ Feedback Modal ------------------
+const feedbackBtn = document.getElementById("feedbackBtn");
+const feedbackModal = document.getElementById("feedbackModal");
+const closeFeedbackModalBtn = document.getElementById("closeFeedbackModal");
+const feedbackForm = document.getElementById("feedbackForm");
+
+// Open Feedback Modal
+feedbackBtn?.addEventListener("click", () => {
+  feedbackModal.classList.remove("hidden");
+  feedbackModal.classList.add("flex", "animate-fadeIn");
+});
+
+// Close Feedback Modal
+function closeFeedbackModal() {
+  feedbackModal.classList.remove("animate-fadeIn");
+  feedbackModal.classList.add("animate-fadeOut");
+  setTimeout(() => {
+    feedbackModal.classList.add("hidden");
+    feedbackModal.classList.remove("flex", "animate-fadeOut");
+  }, 300);
+}
+
+closeFeedbackModalBtn?.addEventListener("click", closeFeedbackModal);
+feedbackModal.addEventListener("click", e => { if (e.target === feedbackModal) closeFeedbackModal(); });
+window.addEventListener("keydown", e => { if (e.key === "Escape" && !feedbackModal.classList.contains("hidden")) closeFeedbackModal(); });
+
+// Handle EmailJS Submission
+feedbackForm?.addEventListener("submit", (e) => {
+  e.preventDefault();
+  // Replace 'YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', 'YOUR_PUBLIC_KEY' with EmailJS credentials
+  emailjs.sendForm('service_mqqndw9', 'template_et2og3p', feedbackForm, '4uCGVPBz3H1dGhGwQ')
+    .then(() => {
+      alert("Feedback sent successfully!");
+      feedbackForm.reset();
+      closeFeedbackModal();
+    })
+    .catch(err => {
+      console.error(err);
+      alert("Failed to send feedback. Please try again later.");
+    });
+});
