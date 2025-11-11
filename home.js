@@ -33,7 +33,7 @@ const cardsData = [
     images: [
       "Assets/O1.jpeg","Assets/O2.jpeg","Assets/O3.png"
     ],
-    desc: `On the 7th day of December, 2025, a son was born into a humble family from Malabon. The child was given the name “Nicole”, an uncommon name for a young boy. 
+    desc: `On the 7th day of December, 2000, a son was born into a humble family from Malabon. The child was given the name “Nicole”, an uncommon name for a young boy. 
     The name reflected his parents’ long-held wish for a daughter—a wish that would finally be fulfilled years later with their sixth and youngest child.
     Nicole had a simple and joyful childhood, but as the family grew, life became more difficult. Coming from modest beginnings, he learned early on what it meant to struggle. 
     Adding to his challenges, Nicole helped care for his brother with special needs—an experience that demanded patience, empathy, and strength far beyond his years.`
