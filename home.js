@@ -195,32 +195,4 @@ function filterCards() {
 genreFilter.addEventListener("change", filterCards);
 searchInput.addEventListener("input", filterCards);
 
-// ------------------ Initialize ------------------
-document.addEventListener("DOMContentLoaded", () => displayCards(cardsData));
-
-const openBtn = document.getElementById('openGameModal');
-  const closeBtn = document.getElementById('closeGameModal');
-  const gameModal = document.getElementById('gameModal');
-  const modalContent = document.getElementById('modalContent');
-
-  openBtn.addEventListener('click', async () => {
-    // Load game.html content into modal
-    const response = await fetch('game.html'); 
-    const html = await response.text();
-    modalContent.innerHTML = html;
-
-    // Execute any scripts inside game.html
-    const scripts = modalContent.querySelectorAll('script');
-    scripts.forEach(script => {
-      const newScript = document.createElement('script');
-      newScript.textContent = script.textContent;
-      document.body.appendChild(newScript);
-    });
-
-    gameModal.classList.remove('hidden');
-  });
-
-  closeBtn.addEventListener('click', () => {
-    gameModal.classList.add('hidden');
-    modalContent.innerHTML = ''; // Clear game when closed
-  });
+displayCards(cardsData);
