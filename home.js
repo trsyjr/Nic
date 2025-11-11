@@ -34,32 +34,45 @@ const cardsData = [
       "Assets/O1.jpeg","Assets/O2.jpeg","Assets/O3.png","Assets/O4.png","Assets/O5.png",
       "Assets/O6.jpeg","Assets/O7.jpeg","Assets/O8.jpeg","Assets/O9.jpeg","Assets/O10.jpeg"
     ],
-    desc: "Born into a humble family, I am the third child among six siblings..."
+    desc: `Born into a humble family, I am the third child among six siblings. My parents had always wished for a daughter, and during my mother’s pregnancy, 
+    everyone believed I would be one. That is how I came to be named Nicole. To their surprise, however, a boy was born instead. Our youngest sibling eventually 
+    became the daughter they had hoped for. My eldest brother and I serve as the family’s breadwinners, while our other siblings are still pursuing their studies. 
+    My parents manage a small sari-sari store and dedicate much of their time to caring for my younger brother who has ASD. Growing up in this environment taught 
+    me the value of responsibility, resilience, and compassion, qualities that continue to shape who I am today.`
   },
   {
     title: "Personality",
     category: "Personality",
     images: ["Assets/P1.jpeg","Assets/P2.jpeg","Assets/P3.jpeg","Assets/P4.jpeg"],
-    desc: "People often see me as outgoing and fun, but deep inside..."
+    desc: `People often see me as outgoing and fun, but deep inside, I am actually a timid and shy person. I often experience numbness and intense nervousness 
+    when placed in public or awkward situations. I manage to cope by reminding myself that it is part of my responsibility and my job to interact with others. 
+    Outside of my professional role, however, I tend to be quiet and reserved. I usually do not speak unless spoken to and often prefer to avoid unnecessary interactions.
+`
   },
   {
     title: "Favorite Soundtrack",
     category: "Favorites",
     images: ["Assets/M1.gif"],
     soundtrack: "Assets/Show Yourself.mp3",
-    desc: "I listen to a wide variety of music — from Philippine hip-hop and K-pop songs..."
+    desc: `I listen to a wide variety of music, from Philippine hip-hop and K-pop songs to timeless classics and even the Frozen II soundtrack. 
+    I appreciate music in all its forms and enjoy discovering different genres that match my mood. Some days I find myself drawn to energetic beats and catchy lyrics, 
+    while on other days I prefer calm and nostalgic tunes. For me, music adds color to everyday life and makes even the simplest moments feel a little more meaningful.`
   },
   {
     title: "Dreams",
     category: "Dreams",
     images: ["Assets/D1.jpeg","Assets/D2.jpeg","Assets/D3.jpeg","Assets/D4.jpeg"],
-    desc: "Ever since I can remember, I’ve been someone who didn’t really dream big..."
+    desc: `Ever since I can remember, I’ve been someone who didn’t really dream big. My only goal was to provide for my family as soon as I could and, if life allowed, 
+    to someday settle into a quiet and simple life. For the longest time, that was enough for me. But as I grew and learned more about myself, I realized that I wanted more. 
+    I became a little greedy in the best way. I want to achieve great things, to excel in what I do, and to find purpose in every step I take. I want to teach, to contribute 
+    to society, and to leave a lasting impact on the lives I touch.`
   },
   {
     title: "Hobbies",
     category: "Hobbies",
     images: ["Assets/H1.png"],
-    desc: "I spend most of my time reading mangas and watching series with my loving girlfriend..."
+    desc: `I spend most of my time reading mangas and watching series with my loving girlfriend. It’s one of the ways we relax and enjoy each other’s company. 
+    Aside from that, I also enjoy playing badminton. It helps me stay active, clear my mind, and have fun, whether I’m playing casually or just rallying for a good workout.`
   }
 ];
 
@@ -172,3 +185,30 @@ searchInput.addEventListener("input", filterCards);
 
 // ------------------ Initialize ------------------
 document.addEventListener("DOMContentLoaded", () => displayCards(cardsData));
+
+const openBtn = document.getElementById('openGameModal');
+  const closeBtn = document.getElementById('closeGameModal');
+  const gameModal = document.getElementById('gameModal');
+  const modalContent = document.getElementById('modalContent');
+
+  openBtn.addEventListener('click', async () => {
+    // Load game.html content into modal
+    const response = await fetch('game.html'); 
+    const html = await response.text();
+    modalContent.innerHTML = html;
+
+    // Execute any scripts inside game.html
+    const scripts = modalContent.querySelectorAll('script');
+    scripts.forEach(script => {
+      const newScript = document.createElement('script');
+      newScript.textContent = script.textContent;
+      document.body.appendChild(newScript);
+    });
+
+    gameModal.classList.remove('hidden');
+  });
+
+  closeBtn.addEventListener('click', () => {
+    gameModal.classList.add('hidden');
+    modalContent.innerHTML = ''; // Clear game when closed
+  });

@@ -31,8 +31,9 @@
   <p class="italic mb-2 text-gray-600 dark:text-gray-400">Training Specialist II</p>
 
   <!-- Quote -->
-  <blockquote class="italic text-sm text-gray-500 dark:text-gray-400 mb-4 px-4">"And medicine, law, business, engineering, 
-    these are noble pursuits and necessary to sustain life. But poetry, beauty, romance, love, these are what we stay alive for. - dead poets society</blockquote>
+  <blockquote class="italic text-sm text-gray-500 dark:text-gray-400 mb-4 px-4">
+    "And medicine, law, business, engineering, these are noble pursuits and necessary to sustain life. But poetry, beauty, romance, love, these are what we stay alive for. - dead poets society"
+  </blockquote>
 
   <!-- Hobbies/Dream/Favorite/Personality -->
   <div class="text-center space-y-2 text-sm w-full px-4">
@@ -43,12 +44,21 @@
   </div>
 
   <div class="flex-1"></div>
-  <a href="index.html" class="mt-4 mb-2 px-6 py-2 bg-pink-400 text-white font-bold rounded-full shadow hover:bg-pink-500 hover:scale-105 transition transform">Logout</a>
+
+  <a href="index.html" class="mb-2 px-6 py-2 bg-pink-400 text-white font-bold rounded-full shadow hover:bg-pink-500 hover:scale-105 transition transform">Logout</a>
 
   <hr class="border-gray-300 dark:border-gray-600 w-full my-4"/>
   <p class="text-xs text-center text-gray-500 dark:text-gray-400">© 2025 November | Feature of the Month</p>
-  </aside>
+</aside>
 
+<!-- Game Modal -->
+<div id="gameModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50 p-4">
+  <div class="bg-white dark:bg-gray-800 rounded-3xl w-full max-w-5xl max-h-[90vh] relative shadow-2xl overflow-auto">
+    <button id="closeGameModal" class="absolute top-4 right-4 text-2xl text-gray-700 dark:text-gray-200 hover:text-red-500">✖</button>
+    <div id="modalContent" class="p-4">
+    </div>
+  </div>
+</div>
 
   <!-- Mobile burger button -->
   <button id="burger" class="fixed top-4 left-4 z-30 md:hidden w-12 h-12 bg-yellow-400 dark:bg-gray-700 flex items-center justify-center rounded-full shadow-lg hover:scale-110 transition-transform">
@@ -117,7 +127,7 @@
           <!-- Text content -->
           <h3 id="modalTitle" class="text-2xl font-bold mb-2 text-gray-900 dark:text-gray-100"></h3>
           <p id="modalCategory" class="text-sm italic mb-3 text-gray-600 dark:text-gray-400"></p>
-          <p id="modalDesc" class="text-sm text-gray-700 dark:text-gray-300"></p>
+          <p id="modalDesc" class="text-[20rem] text-gray-700 dark:text-gray-300"></p>
         </div>
       </div>
     </div>
