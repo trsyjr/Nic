@@ -129,16 +129,18 @@ function openModal(item) {
   swiperWrapper.innerHTML = "";
 
   if (item.soundtrack) {
-    swiperWrapper.innerHTML = `
-      <div class="swiper-slide flex flex-col items-center justify-center gap-4">
-        <img src="${item.images[0]}" class="w-60 sm:w-80 h-auto object-contain animate-spin-slow" alt="Soundtrack Disc">
-        <audio controls class="w-full mt-4">
-          <source src="${item.soundtrack}" type="audio/mpeg">
-          Your browser does not support the audio element.
-        </audio>
-      </div>
-    `;
-  } else {
+  swiperWrapper.innerHTML = `
+    <div class="swiper-slide flex flex-col items-center justify-center gap-4">
+      <img src="${item.images[0]}" 
+           class="w-[22rem] sm:w-full h-auto object-contain animate-spin-slow" 
+           alt="Soundtrack Disc">
+      <audio controls class="w-full mt-4">
+        <source src="${item.soundtrack}" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  `;
+} else {
     swiperWrapper.innerHTML = item.images.map(img => `
       <div class="swiper-slide flex justify-center">
         <img src="${img}" class="w-full max-h-[70vh] sm:max-h-[80vh] object-contain rounded-lg" />
